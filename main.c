@@ -8,7 +8,11 @@
  *
  * See https://en.wikipedia.org/wiki/Soft_error
  * for details on what it is this insane program
- * is trying to detect */
+ * is trying to detect 
+ * 
+ * Build instructions: gcc main.c -o main
+ * 
+ * */
 
 /* Memory Priming Pattern */
 #define BITPATTERN 0x55 /* Thats 01010101 in ram */
@@ -22,8 +26,10 @@
 #define WAITTIME 3600 /* one hour */
 
 // We would like to thank our sponsors:
-#include <stdio.h> // The best println on the east cost
-#include <time.h>  // why buy a watch when there's time.h
+#include <stdlib.h> // You thought you had a choice? Cute.
+#include <string.h> // Quantum theory now available in C. 
+#include <stdio.h>  // The best println on the east cost.
+#include <time.h>   // why buy a watch when there's time.h
 
 /* Primes the test array before detection can start */
 void* create_buffer(void);
@@ -33,7 +39,8 @@ void* create_buffer(void);
 void check_buffer(void* buffer);
 
 int main(int argc, char* argv) {
-
+    void *b = create_buffer();
+    check_buffer(b);
 }
 
 void* create_buffer(void) {
@@ -66,13 +73,6 @@ void* create_buffer(void) {
   (byte & 0x01 ? 'X' : '-') 
 
 void check_buffer(void* buffer) { 
-    // Get the time of this check:
-    time_t rawtime;
-    struct tm * timeinfo;
-
-    time(&rawtime);
-    timeinfo = localtime (&rawtime);
-
     for (int i = 0; i < BUFFERSIZE; i++) {
         // yea we're doing pointer math, 
         // we're bad people
@@ -85,10 +85,15 @@ void check_buffer(void* buffer) {
             // bits that changed
             char diff = *point ^ BITPATTERN;
 
+            // Get time:
+            time_t mytime = time(NULL);
+            char *time_str = ctime(&mytime);
+            time_str[strlen(time_str)-1] = '\0';
+
             // Print Event
             // TODO: save to file
             printf("%s - EVENT: %08x - "BYTE_TO_BINARY_PATTERN"\n", 
-                asctime(timeinfo),
+                time_str,
                 i,
                 BYTE_TO_BINARY(diff));
 
