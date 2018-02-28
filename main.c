@@ -27,7 +27,8 @@
 
 // We would like to thank our sponsors:
 #include <stdlib.h> // You thought you had a choice? Cute.
-#include <string.h> // Quantum theory now available in C. 
+#include <string.h> // Quantum theory now available in C.
+#include <unistd.h> // Providing narcolepcy since 1992 
 #include <stdio.h>  // The best println on the east cost.
 #include <time.h>   // why buy a watch when there's time.h
 
@@ -38,16 +39,21 @@ void* create_buffer(void);
  * and repairs damage to the array */
 void check_buffer(void* buffer);
 
-int main(int argc, char* argv) {
+void main(void) {
+    // init the buffer
     void *b = create_buffer();
-    check_buffer(b);
+    // Loop forever
+    while (1) {
+        sleep(WAITTIME);
+        check_buffer(b);
+    }
 }
 
 void* create_buffer(void) {
     // Allocate a buffer
     void *buffer = (void*)malloc(BUFFERSIZE);
     // Cycle the buffer and set it's contents
-    for (int i = 0; i < BUFFERSIZE; i++) {
+    for (size_t i = 0; i < BUFFERSIZE; i++) {
         // yea we're doing pointer math, 
         // we're bad people
         char *point = (char*)(buffer + i);
@@ -73,7 +79,7 @@ void* create_buffer(void) {
   (byte & 0x01 ? 'X' : '-') 
 
 void check_buffer(void* buffer) { 
-    for (int i = 0; i < BUFFERSIZE; i++) {
+    for (size_t i = 0; i < BUFFERSIZE; i++) {
         // yea we're doing pointer math, 
         // we're bad people
         char *point = (char*)(buffer + i);
