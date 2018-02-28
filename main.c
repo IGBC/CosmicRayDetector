@@ -33,15 +33,15 @@
 #include <time.h>   // why buy a watch when there's time.h
 
 /* Primes the test array before detection can start */
-void* create_buffer(void);
+volatile void* create_buffer(void);
 
 /* Checks the test array for events
  * and repairs damage to the array */
-void check_buffer(void* buffer);
+void check_buffer(volatile void* buffer);
 
 int main(void) {
     // init the buffer
-    void *b = create_buffer();
+    volatile void *b = create_buffer();
     // Loop forever
     while (1) {
         sleep(WAITTIME);
@@ -50,9 +50,9 @@ int main(void) {
     return -1;
 }
 
-void* create_buffer(void) {
+volatile void* create_buffer(void) {
     // Allocate a buffer
-    void *buffer = (void*)malloc(BUFFERSIZE);
+    volatile void *buffer = (void*)malloc(BUFFERSIZE);
     // Cycle the buffer and set it's contents
     for (size_t i = 0; i < BUFFERSIZE; i++) {
         // yea we're doing pointer math, 
@@ -79,7 +79,7 @@ void* create_buffer(void) {
   (byte & 0x02 ? 'X' : '-'), \
   (byte & 0x01 ? 'X' : '-') 
 
-void check_buffer(void* buffer) { 
+void check_buffer(volatile void* buffer) { 
     for (size_t i = 0; i < BUFFERSIZE; i++) {
         // yea we're doing pointer math, 
         // we're bad people
