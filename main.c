@@ -18,12 +18,12 @@
 #define BITPATTERN 0x55 /* Thats 01010101 in ram */
 
 /* Memory Buffer Size */
-#define BUFFERSIZE 1024*1024*1024
-/* Thats 1 GiB to you and me */
+#define BUFFERSIZE 8LL*1024LL*1024LL*1024LL
+/* Thats 8 GiB to you and me */
 
 /* Time to sleep between memory checks in seconds. 
  * Effects the resolution of collected results */
-#define WAITTIME 3600 /* one hour */
+#define WAITTIME 60 /* one minute */
 
 // We would like to thank our sponsors:
 #include <stdlib.h> // You thought you had a choice? Cute.
@@ -98,7 +98,7 @@ void check_buffer(void* buffer) {
 
             // Print Event
             // TODO: save to file
-            printf("%s - EVENT: %08x - "BYTE_TO_BINARY_PATTERN"\n", 
+            printf("%s - EVENT: %016llx - "BYTE_TO_BINARY_PATTERN"\n", 
                 time_str,
                 i,
                 BYTE_TO_BINARY(diff));
