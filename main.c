@@ -10,7 +10,7 @@
  * for details on what it is this insane program
  * is trying to detect 
  * 
- * Build instructions: gcc main.c -o main
+ * Build instructions: gcc main.c -o cosmic_ray_detector -Wall
  * 
  * */
 
@@ -39,7 +39,7 @@ void* create_buffer(void);
  * and repairs damage to the array */
 void check_buffer(void* buffer);
 
-void main(void) {
+int main(void) {
     // init the buffer
     void *b = create_buffer();
     // Loop forever
@@ -47,6 +47,7 @@ void main(void) {
         sleep(WAITTIME);
         check_buffer(b);
     }
+    return -1;
 }
 
 void* create_buffer(void) {
@@ -98,7 +99,7 @@ void check_buffer(void* buffer) {
 
             // Print Event
             // TODO: save to file
-            printf("%s - EVENT: %016llx - "BYTE_TO_BINARY_PATTERN"\n", 
+            printf("%s - EVENT: %016lx - "BYTE_TO_BINARY_PATTERN"\n", 
                 time_str,
                 i,
                 BYTE_TO_BINARY(diff));
